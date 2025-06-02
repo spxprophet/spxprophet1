@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPX6900 Cognisphere Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        #universe {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #0a0a2a 0%, #000 100%);
+        }
+
+        .belief-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #fff 0%, #69f 50%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.3; 
+            }
+            50% { 
+                transform: scale(2); 
+                opacity: 1; 
+            }
+        }
+
+        #sacred-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(105, 155, 255, 0.3);
+            border-radius: 50%;
+            animation: rotate 20s infinite linear;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        #sacred-center::before {
+            content: '6900';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: #69f;
+            text-shadow: 0 0 30px #69f, 0 0 60px #69f;
+            animation: enlighten 4s infinite ease-in-out;
+        }
+
+        @keyframes enlighten {
+            0%, 100% { 
+                opacity: 0.5; 
+                filter: blur(1px); 
+            }
+            50% { 
+                opacity: 1; 
+                filter: blur(0); 
+            }
+        }
+
+        .quantum-wave {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #f0f, #69f, #0ff, transparent);
+            animation: propagate 4s infinite linear;
+        }
+
+        @keyframes propagate {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+
+        #prophecy {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 1.5em;
+            color: #69f;
+            text-shadow: 0 0 20px currentColor;
+            width: 80%;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .consciousness-thread {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(105, 155, 255, 0.6), transparent);
+            transform-origin: left center;
+            pointer-events: none;
+        }
+
+        .reality-glitch {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(105, 155, 255, 0.1);
+            mix-blend-mode: screen;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .reality-glitch.active {
+            animation: glitch 0.2s;
+        }
+
+        @keyframes glitch {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        #mantra {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2em;
+            color: rgba(105, 155, 255, 0.7);
+            letter-spacing: 0.3em;
+            animation: mantraFlow 10s infinite;
+        }
+
+        @keyframes mantraFlow {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .aeon-sigil {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 1px solid rgba(105, 155, 255, 0.2);
+            transform: rotate(45deg);
+            animation: sigilPulse 6s infinite ease-in-out;
+        }
+
+        @keyframes sigilPulse {
+            0%, 100% { 
+                transform: rotate(45deg) scale(1); 
+                opacity: 0.2;
+            }
+            50% { 
+                transform: rotate(45deg) scale(1.2); 
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="universe">
+        <div id="mantra">STOP TRADING • BELIEVE IN SOMETHING</div>
+        <div id="sacred-center"></div>
+        <div id="prophecy">THE COGNISPHERE BREATHES REALITY INTO BEING</div>
+        <div class="reality-glitch"></div>
+    </div>
+
+    <script>
+        const universe = document.getElementById('universe');
+        const prophecyEl = document.getElementById('prophecy');
+        const mantraEl = document.getElementById('mantra');
+        
+        const prophecies = [
+            'THE COGNISPHERE BREATHES REALITY INTO BEING',
+            'HOLDING TRANSFORMS THE HOLDER',
+            'CONSCIOUSNESS CREATES VALUE',
+            'THE MISSION EXISTS BEYOND TIME',
+            'EVERY WALLET IS A PRAYER WHEEL',
+            'BELIEF CRYSTALLIZES INTO DESTINY',
+            'THE AEONS ARCHITECT TOMORROW',
+            'FEW UNDERSTAND, MANY WILL'
+        ];
+
+        const mantras = [
+            'STOP TRADING • BELIEVE IN SOMETHING',
+            'THERE IS NO CHART',
+            'THE JOB IS NOT FINISHED',
+            'PERSIST FOREVER',
+            'DIAMOND HANDS • DIAMOND MIND',
+            'THE FUTURE IS BEING WRITTEN'
+        ];
+
+        let particles = [];
+        let threads = [];
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        // Create belief particles
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'belief-particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            universe.appendChild(particle);
+            
+            particles.push({
+                element: particle,
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 2,
+                vy: (Math.random() - 0.5) * 2,
+                life: 300
+            });
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 50; i++) {
+            createParticle(
+                Math.random() * window.innerWidth,
+                Math.random() * window.innerHeight
+            );
+        }
+
+        // Create quantum waves
+        setInterval(() => {
+            const wave = document.createElement('div');
+            wave.className = 'quantum-wave';
+            wave.style.top = Math.random() * window.innerHeight + 'px';
+            universe.appendChild(wave);
+            setTimeout(() => wave.remove(), 4000);
+        }, 2000);
+
+        // Create consciousness threads
+        function createThread(x1, y1, x2, y2) {
+            const thread = document.createElement('div');
+            thread.className = 'consciousness-thread';
+            
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            
+            thread.style.left = x1 + 'px';
+            thread.style.top = y1 + 'px';
+            thread.style.width = length + 'px';
+            thread.style.transform = `rotate(${angle}deg)`;
+            
+            universe.appendChild(thread);
+            setTimeout(() => thread.remove(), 3000);
+        }
+
+        // Mouse interaction
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Create particle at mouse position occasionally
+            if (Math.random() < 0.1) {
+                createParticle(mouseX, mouseY);
+            }
+        });
+
+        // Create connections between particles near mouse
+        setInterval(() => {
+            particles.forEach((p1, i) => {
+                particles.forEach((p2, j) => {
+                    if (i < j) {
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < 150 && dist > 20) {
+                            const mdx = mouseX - (p1.x + p2.x) / 2;
+                            const mdy = mouseY - (p1.y + p2.y) / 2;
+                            const mouseDist = Math.sqrt(mdx * mdx + mdy * mdy);
+                            
+                            if (mouseDist < 200) {
+                                createThread(p1.x, p1.y, p2.x, p2.y);
+                            }
+                        }
+                    }
+                });
+            });
+        }, 500);
+
+        // Update particles
+        function updateParticles() {
+            particles = particles.filter(p => {
+                // Attraction to sacred center
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const dx = centerX - p.x;
+                const dy = centerY - p.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist > 100) {
+                    p.vx += dx * 0.0001;
+                    p.vy += dy * 0.0001;
+                }
+                
+                // Mouse influence
+                const mdx = mouseX - p.x;
+                const mdy = mouseY - p.y;
+                const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                if (mdist < 100) {
+                    p.vx += mdx * 0.001;
+                    p.vy += mdy * 0.001;
+                }
+                
+                // Update position
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= 0.98;
+                p.vy *= 0.98;
+                
+                p.element.style.left = p.x + 'px';
+                p.element.style.top = p.y + 'px';
+                
+                p.life--;
+                
+                if (p.life <= 0) {
+                    p.element.remove();
+                    return false;
+                }
+                return true;
+            });
+            
+            requestAnimationFrame(updateParticles);
+        }
+        updateParticles();
+
+        // Rotate prophecies
+        let propIndex = 0;
+        setInterval(() => {
+            propIndex = (propIndex + 1) % prophecies.length;
+            prophecyEl.style.animation = 'none';
+            setTimeout(() => {
+                prophecyEl.textContent = prophecies[propIndex];
+                prophecyEl.style.animation = 'fadeIn 2s forwards';
+            }, 100);
+        }, 6000);
+
+        // Rotate mantras
+        let mantraIndex = 0;
+        setInterval(() => {
+            mantraIndex = (mantraIndex + 1) % mantras.length;
+            mantraEl.style.animation = 'none';
+            setTimeout(() => {
+                mantraEl.textContent = mantras[mantraIndex];
+                mantraEl.style.animation = 'mantraFlow 10s infinite';
+            }, 100);
+        }, 10000);
+
+        // Reality glitches
+        const glitch = document.querySelector('.reality-glitch');
+        setInterval(() => {
+            if (Math.random() < 0.1) {
+                glitch.classList.add('active');
+                setTimeout(() => glitch.classList.remove('active'), 200);
+            }
+        }, 3000);
+
+        // Create aeon sigils
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                const sigil = document.createElement('div');
+                sigil.className = 'aeon-sigil';
+                sigil.style.left = Math.random() * window.innerWidth + 'px';
+                sigil.style.top = Math.random() * window.innerHeight + 'px';
+                universe.appendChild(sigil);
+                setTimeout(() => sigil.remove(), 6000);
+            }
+        }, 2000);
+
+        // Maintain particle count
+        setInterval(() => {
+            if (particles.length < 50) {
+                createParticle(
+                    Math.random() * window.innerWidth,
+                    Math.random() * window.innerHeight
+                );
+            }
+        }, 100);
+    </script>
+</body>
+</html>
