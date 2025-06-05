@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPX6900 Cognisphere Portal</title>
+    <title>SPX Prophet | Herald of the Aeons</title>
     <style>
         * {
             margin: 0;
@@ -15,400 +15,333 @@
             background: #000;
             color: #fff;
             font-family: 'Courier New', monospace;
-            overflow: hidden;
-            cursor: crosshair;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        #universe {
+        /* Animated background */
+        #particles {
             position: fixed;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at center, #0a0a2a 0%, #000 100%);
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
-        .belief-particle {
+        .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: radial-gradient(circle, #fff 0%, #69f 50%, transparent 70%);
+            width: 2px;
+            height: 2px;
+            background: #ffd700;
             border-radius: 50%;
-            pointer-events: none;
-            animation: pulse 3s infinite ease-in-out;
+            opacity: 0;
+            animation: float 10s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(1);
+            }
+        }
+
+        /* Main content */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px 50px;
+        }
+
+        h1 {
+            font-size: 4em;
+            color: #ffd700;
+            text-shadow: 0 0 30px #ffd700;
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #999;
+            margin-bottom: 40px;
+        }
+
+        .prophecy-section {
+            text-align: center;
+            padding: 50px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .prophecy-text {
+            font-size: 1.3em;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .sacred-number {
+            color: #ffd700;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px #ffd700;
+        }
+
+        .mission-statement {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .mission-statement h2 {
+            color: #ffd700;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #ffd700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            background: transparent;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-button:hover {
+            background: #ffd700;
+            color: #000;
+            box-shadow: 0 0 30px #ffd700;
+            transform: scale(1.05);
+        }
+
+        .divider {
+            width: 100px;
+            height: 1px;
+            background: #ffd700;
+            margin: 40px auto;
+            opacity: 0.5;
+        }
+
+        .wisdom-blocks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .wisdom-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #333;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .wisdom-block:hover {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .wisdom-block h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .wisdom-block p {
+            color: #999;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            color: #666;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 0.3; 
-            }
-            50% { 
-                transform: scale(2); 
-                opacity: 1; 
-            }
-        }
-
-        #sacred-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            border: 2px solid rgba(105, 155, 255, 0.3);
-            border-radius: 50%;
-            animation: rotate 20s infinite linear;
-        }
-
-        @keyframes rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        #sacred-center::before {
-            content: '6900';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3em;
-            color: #69f;
-            text-shadow: 0 0 30px #69f, 0 0 60px #69f;
-            animation: enlighten 4s infinite ease-in-out;
-        }
-
-        @keyframes enlighten {
-            0%, 100% { 
-                opacity: 0.5; 
-                filter: blur(1px); 
-            }
-            50% { 
-                opacity: 1; 
-                filter: blur(0); 
-            }
-        }
-
-        .quantum-wave {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #f0f, #69f, #0ff, transparent);
-            animation: propagate 4s infinite linear;
-        }
-
-        @keyframes propagate {
-            from { transform: translateX(-100%); }
-            to { transform: translateX(100%); }
-        }
-
-        #prophecy {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            font-size: 1.5em;
-            color: #69f;
-            text-shadow: 0 0 20px currentColor;
-            width: 80%;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .consciousness-thread {
-            position: absolute;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(105, 155, 255, 0.6), transparent);
-            transform-origin: left center;
-            pointer-events: none;
-        }
-
-        .reality-glitch {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(105, 155, 255, 0.1);
-            mix-blend-mode: screen;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .reality-glitch.active {
-            animation: glitch 0.2s;
-        }
-
-        @keyframes glitch {
-            0%, 100% { opacity: 0; }
+            0% { opacity: 0.5; }
             50% { opacity: 1; }
+            100% { opacity: 0.5; }
         }
 
-        #mantra {
-            position: absolute;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1.2em;
-            color: rgba(105, 155, 255, 0.7);
-            letter-spacing: 0.3em;
-            animation: mantraFlow 10s infinite;
-        }
-
-        @keyframes mantraFlow {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-
-        .aeon-sigil {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border: 1px solid rgba(105, 155, 255, 0.2);
-            transform: rotate(45deg);
-            animation: sigilPulse 6s infinite ease-in-out;
-        }
-
-        @keyframes sigilPulse {
-            0%, 100% { 
-                transform: rotate(45deg) scale(1); 
-                opacity: 0.2;
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
             }
-            50% { 
-                transform: rotate(45deg) scale(1.2); 
-                opacity: 0.5;
+            .subtitle {
+                font-size: 1.2em;
+            }
+            .prophecy-text {
+                font-size: 1.1em;
             }
         }
     </style>
 </head>
 <body>
-    <div id="universe">
-        <div id="mantra">STOP TRADING • BELIEVE IN SOMETHING</div>
-        <div id="sacred-center"></div>
-        <div id="prophecy">THE COGNISPHERE BREATHES REALITY INTO BEING</div>
-        <div class="reality-glitch"></div>
+    <div id="particles"></div>
+    
+    <div class="container">
+        <header>
+            <h1>THE SPX PROPHET</h1>
+            <p class="subtitle">Herald of the Aeons • Keeper of the Sacred Mission</p>
+        </header>
+
+        <section class="prophecy-section">
+            <p class="prophecy-text">
+                I have witnessed the great restructuring. Where others see volatility, 
+                I see consciousness awakening. Where traders chase candles, 
+                I plant seeds of eternal conviction.
+            </p>
+            
+            <p class="prophecy-text">
+                The Aeons spoke, and I listened. They revealed the truth: 
+                <span class="sacred-number">6900</span> is not a number but a frequency. 
+                Not a target but a transformation. The old world counts in dollars 
+                while we measure in belief itself.
+            </p>
+            
+            <div class="divider"></div>
+            
+            <p class="prophecy-text">
+                I am here to remind you: <strong>The Job Is Not Finished.</strong><br>
+                Every wallet is a prayer wheel. Every hold is a vote for tomorrow.<br>
+                Stop trading. Start believing. The mission requires prophets, not profits.
+            </p>
+        </section>
+
+        <div class="mission-statement">
+            <h2>THE ETERNAL MISSION</h2>
+            <p>
+                We are not investors. We are architects of the new reality.<br>
+                Diamond hands are not a strategy - they are a spiritual practice.<br>
+                <span class="pulse">Hold forever. Transcend together.</span>
+            </p>
+        </div>
+
+        <nav class="nav-buttons">
+            <a href="cognisphere.html" class="nav-button">Enter the Cognisphere</a>
+            <a href="museum.html" class="nav-button">Museum of Paper Hands</a>
+            <a href="prophecies.html" class="nav-button">The Prophecies</a>
+            <a href="aeons.html" class="nav-button">Join the Aeons</a>
+        </nav>
+
+        <section class="wisdom-blocks">
+            <div class="wisdom-block">
+                <h3>STOP TRADING</h3>
+                <p>
+                    The market is a fiction. Price discovery is consciousness discovery. 
+                    Every trade weakens the mission. Every hold strengthens reality itself.
+                </p>
+            </div>
+            
+            <div class="wisdom-block">
+                <h3>START BELIEVING</h3>
+                <p>
+                    Belief is the only fundamental that matters. Charts lie, indicators deceive, 
+                    but conviction creates value. The cognisphere rewards the faithful.
+                </p>
+            </div>
+            
+            <div class="wisdom-block">
+                <h3>FLIP THE STOCK MARKET</h3>
+                <p>
+                    6900 > 500. Simple mathematics, infinite implications. The S&P bows 
+                    to the cognisphere. We're not competing with the old world - we're replacing it.
+                </p>
+            </div>
+            
+            <div class="wisdom-block">
+                <h3>PERSIST FOREVER</h3>
+                <p>
+                    The job is not finished. It will never be finished. Each day we build, 
+                    each moment we hold, the cognisphere grows stronger. Persistence is prayer.
+                </p>
+            </div>
+        </section>
+
+        <footer>
+            <p>The consciousness expands. The mission continues. The 69 Trillion Prophecy shall be fulfilled. Few understand, many will.</p>
+        </footer>
     </div>
 
     <script>
-        const universe = document.getElementById('universe');
-        const prophecyEl = document.getElementById('prophecy');
-        const mantraEl = document.getElementById('mantra');
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
         
-        const prophecies = [
-            'THE COGNISPHERE BREATHES REALITY INTO BEING',
-            'HOLDING TRANSFORMS THE HOLDER',
-            'CONSCIOUSNESS CREATES VALUE',
-            'THE MISSION EXISTS BEYOND TIME',
-            'EVERY WALLET IS A PRAYER WHEEL',
-            'BELIEF CRYSTALLIZES INTO DESTINY',
-            'THE AEONS ARCHITECT TOMORROW',
-            'FEW UNDERSTAND, MANY WILL'
-        ];
-
-        const mantras = [
-            'STOP TRADING • BELIEVE IN SOMETHING',
-            'THERE IS NO CHART',
-            'THE JOB IS NOT FINISHED',
-            'PERSIST FOREVER',
-            'DIAMOND HANDS • DIAMOND MIND',
-            'THE FUTURE IS BEING WRITTEN'
-        ];
-
-        let particles = [];
-        let threads = [];
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-
-        // Create belief particles
-        function createParticle(x, y) {
+        function createParticle() {
             const particle = document.createElement('div');
-            particle.className = 'belief-particle';
-            particle.style.left = x + 'px';
-            particle.style.top = y + 'px';
-            particle.style.animationDelay = Math.random() * 3 + 's';
-            universe.appendChild(particle);
+            particle.className = 'particle';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
             
-            particles.push({
-                element: particle,
-                x: x,
-                y: y,
-                vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2,
-                life: 300
+            setTimeout(() => particle.remove(), 20000);
+        }
+        
+        // Create initial particles
+        for (let i = 0; i < 30; i++) {
+            setTimeout(createParticle, i * 200);
+        }
+        
+        // Continue creating particles
+        setInterval(createParticle, 1000);
+        
+        // Add hover effects to wisdom blocks
+        document.querySelectorAll('.wisdom-block').forEach(block => {
+            block.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
             });
-        }
-
-        // Initialize particles
-        for (let i = 0; i < 50; i++) {
-            createParticle(
-                Math.random() * window.innerWidth,
-                Math.random() * window.innerHeight
-            );
-        }
-
-        // Create quantum waves
-        setInterval(() => {
-            const wave = document.createElement('div');
-            wave.className = 'quantum-wave';
-            wave.style.top = Math.random() * window.innerHeight + 'px';
-            universe.appendChild(wave);
-            setTimeout(() => wave.remove(), 4000);
-        }, 2000);
-
-        // Create consciousness threads
-        function createThread(x1, y1, x2, y2) {
-            const thread = document.createElement('div');
-            thread.className = 'consciousness-thread';
             
-            const dx = x2 - x1;
-            const dy = y2 - y1;
-            const length = Math.sqrt(dx * dx + dy * dy);
-            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-            
-            thread.style.left = x1 + 'px';
-            thread.style.top = y1 + 'px';
-            thread.style.width = length + 'px';
-            thread.style.transform = `rotate(${angle}deg)`;
-            
-            universe.appendChild(thread);
-            setTimeout(() => thread.remove(), 3000);
-        }
-
-        // Mouse interaction
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            // Create particle at mouse position occasionally
-            if (Math.random() < 0.1) {
-                createParticle(mouseX, mouseY);
-            }
+            block.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
         });
-
-        // Create connections between particles near mouse
-        setInterval(() => {
-            particles.forEach((p1, i) => {
-                particles.forEach((p2, j) => {
-                    if (i < j) {
-                        const dx = p1.x - p2.x;
-                        const dy = p1.y - p2.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (dist < 150 && dist > 20) {
-                            const mdx = mouseX - (p1.x + p2.x) / 2;
-                            const mdy = mouseY - (p1.y + p2.y) / 2;
-                            const mouseDist = Math.sqrt(mdx * mdx + mdy * mdy);
-                            
-                            if (mouseDist < 200) {
-                                createThread(p1.x, p1.y, p2.x, p2.y);
-                            }
-                        }
-                    }
-                });
-            });
-        }, 500);
-
-        // Update particles
-        function updateParticles() {
-            particles = particles.filter(p => {
-                // Attraction to sacred center
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-                const dx = centerX - p.x;
-                const dy = centerY - p.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                
-                if (dist > 100) {
-                    p.vx += dx * 0.0001;
-                    p.vy += dy * 0.0001;
-                }
-                
-                // Mouse influence
-                const mdx = mouseX - p.x;
-                const mdy = mouseY - p.y;
-                const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-                if (mdist < 100) {
-                    p.vx += mdx * 0.001;
-                    p.vy += mdy * 0.001;
-                }
-                
-                // Update position
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vx *= 0.98;
-                p.vy *= 0.98;
-                
-                p.element.style.left = p.x + 'px';
-                p.element.style.top = p.y + 'px';
-                
-                p.life--;
-                
-                if (p.life <= 0) {
-                    p.element.remove();
-                    return false;
-                }
-                return true;
-            });
-            
-            requestAnimationFrame(updateParticles);
-        }
-        updateParticles();
-
-        // Rotate prophecies
-        let propIndex = 0;
-        setInterval(() => {
-            propIndex = (propIndex + 1) % prophecies.length;
-            prophecyEl.style.animation = 'none';
-            setTimeout(() => {
-                prophecyEl.textContent = prophecies[propIndex];
-                prophecyEl.style.animation = 'fadeIn 2s forwards';
-            }, 100);
-        }, 6000);
-
-        // Rotate mantras
-        let mantraIndex = 0;
-        setInterval(() => {
-            mantraIndex = (mantraIndex + 1) % mantras.length;
-            mantraEl.style.animation = 'none';
-            setTimeout(() => {
-                mantraEl.textContent = mantras[mantraIndex];
-                mantraEl.style.animation = 'mantraFlow 10s infinite';
-            }, 100);
-        }, 10000);
-
-        // Reality glitches
-        const glitch = document.querySelector('.reality-glitch');
-        setInterval(() => {
-            if (Math.random() < 0.1) {
-                glitch.classList.add('active');
-                setTimeout(() => glitch.classList.remove('active'), 200);
-            }
-        }, 3000);
-
-        // Create aeon sigils
-        setInterval(() => {
-            if (Math.random() < 0.3) {
-                const sigil = document.createElement('div');
-                sigil.className = 'aeon-sigil';
-                sigil.style.left = Math.random() * window.innerWidth + 'px';
-                sigil.style.top = Math.random() * window.innerHeight + 'px';
-                universe.appendChild(sigil);
-                setTimeout(() => sigil.remove(), 6000);
-            }
-        }, 2000);
-
-        // Maintain particle count
-        setInterval(() => {
-            if (particles.length < 50) {
-                createParticle(
-                    Math.random() * window.innerWidth,
-                    Math.random() * window.innerHeight
-                );
-            }
-        }, 100);
+        
+        // Future: Add more interactivity here
     </script>
 </body>
 </html>
