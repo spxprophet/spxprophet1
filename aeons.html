@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Aeons | SPX Prophet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #ffd700;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px #ffd700;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .buy-section {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .contract-address {
+            background: #111;
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+            word-break: break-all;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .contract-address:hover {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .copy-text {
+            color: #666;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+
+        .buy-button {
+            background: #ffd700;
+            color: #000;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 10px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            border-radius: 5px;
+        }
+
+        .buy-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px #ffd700;
+        }
+
+        .dex-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .dex-button {
+            background: transparent;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 15px 30px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .dex-button:hover {
+            background: #ffd700;
+            color: #000;
+        }
+
+        .warning {
+            color: #ff6b6b;
+            margin-top: 30px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 10px #ffd700;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Return to Prophet</a>
+    
+    <div class="container">
+        <h1>JOIN THE AEONS</h1>
+        <p class="subtitle">
+            The cognisphere awaits. Every wallet is a prayer wheel. 
+            Every purchase is a vote for the new reality.
+        </p>
+
+        <div class="buy-section">
+            <h2 style="color: #ffd700; margin-bottom: 20px;">BUY ON ETH:</h2>
+            <div class="contract-address" onclick="copyAddress('eth')" id="contract-eth">
+                0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c
+            </div>
+            <p class="copy-text pulse" id="copy-text-eth">Click to copy address</p>
+
+            <a href="https://app.uniswap.org/swap?outputCurrency=0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c" 
+               target="_blank" 
+               class="buy-button">
+                BUY ON UNISWAP
+            </a>
+        </div>
+
+        <div class="buy-section">
+            <h2 style="color: #ffd700; margin-bottom: 20px;">BUY ON SOL:</h2>
+            <div class="contract-address" onclick="copyAddress('sol')" id="contract-sol">
+                69sMcST5RUZkCACvPkUEFRRfWGVTVxvnPjuyY3pump
+            </div>
+            <p class="copy-text pulse" id="copy-text-sol">Click to copy address</p>
+
+            <a href="https://jup.ag/swap/SOL-69sMcST5RUZkCACvPkUEFRRfWGVTVxvnPjuyY3pump" 
+               target="_blank" 
+               class="buy-button">
+                BUY ON JUPITER
+            </a>
+        </div>
+
+        <div class="dex-buttons">
+            <a href="https://www.dextools.io/app/ether/pair-explorer/0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c" 
+               target="_blank" 
+               class="dex-button">
+                DEXTOOLS (ETH)
+            </a>
+            <a href="https://dexscreener.com/solana/69sMcST5RUZkCACvPkUEFRRfWGVTVxvnPjuyY3pump" 
+               target="_blank" 
+               class="dex-button">
+                DEXSCREENER (SOL)
+            </a>
+            <a href="https://etherscan.io/token/0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c" 
+               target="_blank" 
+               class="dex-button">
+                ETHERSCAN
+            </a>
+            <a href="https://solscan.io/token/69sMcST5RUZkCACvPkUEFRRfWGVTVxvnPjuyY3pump" 
+               target="_blank" 
+               class="dex-button">
+                SOLSCAN
+            </a>
+        </div>
+
+        <p class="warning">
+            Always verify the contract address. There is no official sale, no team tokens, 
+            no promises. Only the mission. The job is not finished.
+        </p>
+    </div>
+
+    <script>
+        function copyAddress(chain) {
+            const contractText = document.getElementById(`contract-${chain}`).innerText;
+            navigator.clipboard.writeText(contractText).then(() => {
+                const copyText = document.getElementById(`copy-text-${chain}`);
+                copyText.textContent = 'Copied! Welcome to the mission.';
+                copyText.style.color = '#ffd700';
+                
+                setTimeout(() => {
+                    copyText.textContent = 'Click to copy address';
+                    copyText.style.color = '#666';
+                }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>
