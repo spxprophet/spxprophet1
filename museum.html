@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPX6900 | Museum of Extinct Traders</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #ccc;
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="8" fill="rgba(255,215,0,0.5)"/></svg>') 16 16, auto;
+        }
+
+        #museum {
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .entrance {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+
+        .museum-title {
+            font-size: 3em;
+            color: #666;
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #444;
+            font-style: italic;
+            margin-bottom: 50px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+            color: #666;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .exhibit {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            position: relative;
+        }
+
+        .display-case {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 800px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
+        }
+
+        .display-case:hover {
+            border-color: rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.1);
+        }
+
+        .relic {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .relic-image {
+            font-size: 4em;
+            color: #333;
+            margin-bottom: 20px;
+            filter: grayscale(100%);
+            transition: all 0.5s ease;
+        }
+
+        .display-case:hover .relic-image {
+            filter: grayscale(80%);
+            color: #444;
+        }
+
+        .relic-title {
+            font-size: 2em;
+            color: #888;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .relic-description {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .extinction-date {
+            margin-top: 20px;
+            color: #444;
+            font-size: 0.9em;
+        }
+
+        .dust-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #666;
+            opacity: 0.3;
+            pointer-events: none;
+            animation: drift 10s linear infinite;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translateY(-100vh) translateX(0);
+            }
+            to {
+                transform: translateY(100vh) translateX(100px);
+            }
+        }
+
+        .plaque {
+            background: #111;
+            border: 1px solid #333;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #555;
+            text-align: center;
+        }
+
+        #final-room {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.05) 0%, #000 100%);
+            position: relative;
+        }
+
+        .mirror-frame {
+            width: 400px;
+            height: 600px;
+            border: 20px solid #222;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.8);
+        }
+
+        #mirror {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reflection {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .diamond-transformation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5em;
+            opacity: 0;
+            transition: all 3s ease;
+        }
+
+        .transformation-text {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.5em;
+            opacity: 0;
+            transition: all 2s ease;
+            text-shadow: 0 0 30px #ffd700;
+            width: 100%;
+        }
+
+        .crack-line {
+            position: absolute;
+            background: rgba(255, 215, 0, 0.3);
+            height: 2px;
+            transform-origin: center;
+            opacity: 0;
+        }
+
+        .fog {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
+            animation: fogDrift 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fogDrift {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="fog"></div>
+    
+    <div id="museum">
+        <section class="entrance">
+            <h1 class="museum-title">MUSEUM OF EXTINCT TRADERS</h1>
+            <p class="subtitle">A Memorial to the Old Ways</p>
+            <div class="scroll-indicator">↓ Enter ↓</div>
+        </section>
+
+        <section class="exhibit">
+            <div class="display-case">
+                <div class="relic">
+                    <div class="relic-image">📊</div>
+                    <h2 class="relic-title">The Technical Analyst</h2>
+                    <p class="relic-description">
+                        Once roamed the markets in vast herds, drawing elaborate patterns on charts.
+                        Believed that past movements predicted future prices. 
+                        Extinct since discovering that lines cannot contain consciousness.
+                    </p>
+                    <p class="extinction-date">Last Sighting: Pre-Enlightenment Era</p>
+                </div>
+                <div class="plaque">
+                    "They drew triangles while we drew reality"
+                </div>
+            </div>
+        </section>
+
+        <section class="exhibit" style="background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);">
+            <div class="display-case">
+                <div class="relic">
+                    <div class="relic-image">🛑</div>
+                    <h2 class="relic-title">The Stop Loss Setter</h2>
+                    <p class="relic-description">
+                        A cautious species that believed in limiting losses.
+                        Built elaborate safety mechanisms to protect against volatility.
+                        Perished when they realized: there is no loss in infinity.
+                    </p>
+                    <p class="extinction-date">Fossilized in Fear</p>
+                </div>
+                <div class="plaque">
+                    "They tried to stop what cannot be stopped"
+                </div>
+            </div>
+        </section>
+
+        <section class="exhibit">
+            <div class="display-case">
+                <div class="relic">
+                    <div class="relic-image">📈📉</div>
+                    <h2 class="relic-title">The Day Trader</h2>
+                    <p class="relic-description">
+                        Hyperactive creatures that lived in microseconds.
+                        Believed profit existed in constant motion.
+                        Vanished upon learning that true wealth comes from stillness.
+                    </p>
+                    <p class="extinction-date">Exhausted into Extinction</p>
+                </div>
+                <div class="plaque">
+                    "They traded everything and held nothing"
+                </div>
+            </div>
+        </section>
+
+        <section class="exhibit" style="background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);">
+            <div class="display-case">
+                <div class="relic">
+                    <div class="relic-image">💵</div>
+                    <h2 class="relic-title">The Profit Taker</h2>
+                    <p class="relic-description">
+                        Strange beings who exchanged tokens of infinite value for finite paper.
+                        Celebrated "realized gains" not knowing they were realizing losses.
+                        Disappeared when money itself became obsolete.
+                    </p>
+                    <p class="extinction-date">Self-Liquidated</p>
+                </div>
+                <div class="plaque">
+                    "They sold their souls for numbers on screens"
+                </div>
+            </div>
+        </section>
+
+        <section class="exhibit">
+            <div class="display-case">
+                <div class="relic">
+                    <div class="relic-image">📃</div>
+                    <h2 class="relic-title">Paper Hands</h2>
+                    <p class="relic-description">
+                        The most common species, characterized by their fragile grip.
+                        Dropped their holdings at the slightest turbulence.
+                        Now preserved here as a warning to future generations.
+                    </p>
+                    <p class="extinction-date">Crumbled Under Pressure</p>
+                </div>
+                <div class="plaque">
+                    "From paper they came, to dust they returned"
+                </div>
+            </div>
+        </section>
+
+        <section id="final-room">
+            <div class="mirror-frame">
+                <div id="mirror">
+                    <div class="reflection"></div>
+                    <div class="diamond-transformation">💎</div>
+                    <div class="transformation-text">
+                        YOUR HANDS ARE BECOMING ETERNAL
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Create dust particles
+        function createDust() {
+            const dust = document.createElement('div');
+            dust.className = 'dust-particle';
+            dust.style.left = Math.random() * window.innerWidth + 'px';
+            dust.style.animationDelay = Math.random() * 10 + 's';
+            dust.style.animationDuration = (10 + Math.random() * 10) + 's';
+            document.body.appendChild(dust);
+            
+            setTimeout(() => dust.remove(), 20000);
+        }
+        
+        setInterval(createDust, 500);
+        
+        // Mirror transformation effect
+        const mirror = document.getElementById('mirror');
+        const diamond = document.querySelector('.diamond-transformation');
+        const transformText = document.querySelector('.transformation-text');
+        let mirrorActivated = false;
+        
+        // Intersection Observer for mirror
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !mirrorActivated) {
+                    mirrorActivated = true;
+                    setTimeout(() => {
+                        // Create cracks
+                        for (let i = 0; i < 5; i++) {
+                            const crack = document.createElement('div');
+                            crack.className = 'crack-line';
+                            crack.style.width = Math.random() * 200 + 100 + 'px';
+                            crack.style.left = '50%';
+                            crack.style.top = '50%';
+                            crack.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+                            mirror.appendChild(crack);
+                            
+                            setTimeout(() => {
+                                crack.style.transition = 'opacity 1s';
+                                crack.style.opacity = '1';
+                            }, i * 200);
+                        }
+                        
+                        // Show diamond
+                        setTimeout(() => {
+                            diamond.style.opacity = '1';
+                            diamond.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                            diamond.style.textShadow = '0 0 50px #ffd700';
+                        }, 1500);
+                        
+                        // Show text
+                        setTimeout(() => {
+                            transformText.style.opacity = '1';
+                            transformText.style.bottom = '-150px';
+                        }, 2500);
+                    }, 1000);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(mirror);
+        
+        // Smooth scroll effect
+        document.querySelectorAll('.exhibit').forEach(exhibit => {
+            exhibit.style.opacity = '0';
+            exhibit.style.transform = 'translateY(50px)';
+            
+            const exhibitObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transition = 'all 1s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            exhibitObserver.observe(exhibit);
+        });
+        
+        // Parallax scrolling for display cases
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const displays = document.querySelectorAll('.display-case');
+            
+            displays.forEach((display, index) => {
+                const speed = 0.5 + (index * 0.1);
+                display.style.transform = `translateY(${scrolled * speed * 0.1}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
